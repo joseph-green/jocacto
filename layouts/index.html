@@ -37,6 +37,8 @@
   {{ partial "optional-about.html" . }}
   </section>
 
+
+  {{ if .Site.Params.showPosts }}
   <section id="writing">
     <span class="h1"><a href="{{ .Site.Params.mainSection | absURL }}">{{ .Site.Params.mainSectionTitle | default "Writings" }}</a></span>
     {{ if (and (and (isset .Site.Params "tagsoverview") (eq .Site.Params.tagsOverview true)) (gt (len .Site.Taxonomies.tags) 0)) }}
@@ -85,6 +87,7 @@
     </ul>
     {{ end }}
   </section>
+  {{ end }}
 
   {{ $showProjectsList := false }}
   {{ if (isset .Site.Params "showprojectslist") }}
@@ -102,7 +105,31 @@
     <ul class="project-list">
         {{ range .Site.Data.projects.list }}
         <li class="project-item">
-          <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
+          <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }} {{ if isset . "github" }}[<a href="{{ .github }}">GitHub</a>]{{ end }}
+        </li>
+        {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+
+
+  {{ $showExperiencesList := false }}
+  {{ if (isset .Site.Params "showexperiencelist") }}
+    {{ $showExperiencesList = .Site.Params.showExperienceList }}
+  {{ else if .Site.Data.experience }}
+    {{ $showExperienceList = true }}
+  {{ end }}
+  {{ if $showExperiencesList }}
+    {{ $experiencesUrl := "#" }}
+    {{ if isset .Site.Params "experiencesurl" }}
+      {{ $experienceUrl = .Site.Params.experiencesUrl }}
+    {{ end }}
+  <section id="projects">
+    <span class="h1"><a href="{{ $experiencesUrl }}">Experience</a></span>
+    <ul class="project-list">
+        {{ range .Site.Data.experiences.list }}
+        <li class="project-item">
+          <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }} 
         </li>
         {{ end }}
     </ul>
