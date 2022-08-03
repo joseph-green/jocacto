@@ -58,7 +58,7 @@
         {{ end }}
       </div>
     </header>
-
+<!--
   {{ with .Resources.ByType "image" }}
     <div class="article-gallery">
       {{ range $index, $value := . }}
@@ -68,12 +68,21 @@
       {{ end }}
     </div>
   {{ end }}
+  -->
     {{ if .Site.Params.tocInline }}
     <div id="toc">
       {{ .TableOfContents }}
     </div>
     {{ end }}
+
+
+
+  
+
     <div class="content" itemprop="articleBody">
+      {{ with .Resources.GetMatch .Params.background_image  }}
+        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}">
+      {{ end }}
       {{ .Content}}
     </div>
   </article>
